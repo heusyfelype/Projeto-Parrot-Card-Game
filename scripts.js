@@ -7,17 +7,19 @@ function comecarOJogo() {
         quantidadeDeCartas = prompt("Digite quantas cartas válido (entre 4 e 14 cartas, número par)")
     }
 
-    document.querySelector("section").innerHTML = ` 
-    <div class="card">
-    <div class="front-face face">
-      Frente
-    </div>
-    <div class="back-face face">
-      Verso
-    </div>
-  </div>
+    for (let i = 0; i < quantidadeDeCartas; i++) {
+        document.querySelector("section").innerHTML =  document.querySelector("section").innerHTML + ` 
+        <div class="card">
+            <div class="front-face face">
+                Frente
+            </div>
+            <div class="back-face face">
+                Verso
+            </div>
+        </div>
     
     `
+    }
 
 
 
