@@ -4,15 +4,41 @@
 
 body {
     background-color: #EEF9BF;
+    font-family: 'Roboto', sans-serif;
 }
 
 h1 {
     text-align: center;
-    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 56px;
     line-height: 66px;
     letter-spacing: -0.004em;
     color: #75B79E;
+}
+
+main{
+    display: flex;
+    justify-content: center;
+}
+
+button{
+    font-weight: normal;
+    font-size: larger;
+    width: 15%;
+    height: 5vh;
+    min-width: 180px;
+    background-color: #EEF9BF;
+    color: #75B79E;
+    border-radius: 10px;
+    box-shadow: ;
+}
+
+section{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.escondido{
+    display: none;
 }
