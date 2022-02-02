@@ -7,11 +7,14 @@ function comecarOJogo() {
         quantidadeDeCartas = prompt("Digite quantas cartas válido (entre 4 e 14 cartas, número par)")
     }
 
+    //let bancoDeImagens = [verso1, verso2, verso3]
+
+
     for (let i = 0; i < quantidadeDeCartas; i++) {
         document.querySelector("section").innerHTML =  document.querySelector("section").innerHTML + ` 
         <div class="card">
             <div class="front-face face">
-                Frente
+            <img src="imagens-e-gifs/papagaio-frente.png" alt="imagem de papagaio">
             </div>
             <div class="back-face face">
                 Verso

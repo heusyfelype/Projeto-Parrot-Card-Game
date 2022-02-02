@@ -1,12 +1,13 @@
 .card {
-    width: 200px;
-    height: 250px;
+    width: 117px;
+    height: 146px;
     position: relative;
-  }
+    margin: 17px;
+}
 
-  .face {
+.face {
     width: 100%;
-    height: 100%;
+    height: 100%; 
     background-color: #a7e9af;
     border-radius: 10px;
     box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
@@ -17,16 +18,21 @@
     backface-visibility: hidden;
     transition: all 0.5s;
     transform-style: preserve-3d;
-  }
+}
 
-  .back-face {
+.face img {
+    width: 100px;
+    height: 100px;
+}
+
+.back-face {
     transform: rotateY(180deg);
-  }
+}
 
-  .card:active .back-face {
+.card:active .back-face {
     transform: rotateY(0deg);
-  }
+}
 
-  .card:active .front-face {
+.card:active .front-face {
     transform: rotateY(-180deg);
-  }
+}
