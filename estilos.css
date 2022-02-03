@@ -5,6 +5,9 @@
 body {
     background-color: #EEF9BF;
     font-family: 'Roboto', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 h1 {
@@ -20,6 +23,9 @@ h1 {
 main{
     display: flex;
     justify-content: center;
+    align-items: center;
+    width: fit-content ;
+    max-width: 930px;
 }
 
 button{
@@ -36,8 +42,19 @@ button{
 section{
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 .escondido{
     display: none;
+}
+
+@media (max-width: 550px){
+    main{
+        max-width: 155px;
+    }
+
+    h1{
+        font-size:36px;
+    }
 }
