@@ -29,10 +29,10 @@
     transform: rotateY(180deg);
 }
 
-.card:active .back-face {
+.rotacionar_verso {
     transform: rotateY(0deg);
 }
 
-.card:active .front-face {
+.rotacionar_frente {
     transform: rotateY(-180deg);
-}
+} 
