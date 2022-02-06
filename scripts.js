@@ -100,21 +100,7 @@ function clicarNaCarta(elementoClicado, clique) {
                     podeclicar = true;
 
                     if (quantidadeDeParesAcertados == quantidadeDeCartas / 2) {
-                        alert("Você ganhou em " + quantidadeDeCartasViradas + " jogadas!")
-                        let reiniciar = prompt("Deseja reiniciar o jogo? \"sim\" ou \"não\"");
-                        if (reiniciar = "sim") {
-                            quantidadeDeCartas = 0;
-                            contador = 0;
-                            primeiraCartaVirada = null;
-                            segundaCartaVirada = null;
-                            quantidadeDeCartasViradas = 0;
-                            quantidadeDeParesAcertados = 0;
-
-                            clearInterval(intervalo);
-                            segundos = 0;
-                            comecarOJogo();
-                            cronometrar();
-                        }
+                        setTimeout(terminouOJogo, 1000);
                     }
                 } else {
                     setTimeout(desvirarCartas, 2500);
@@ -126,37 +112,6 @@ function clicarNaCarta(elementoClicado, clique) {
             }
         }
     }
-    //console.log(contador);
-    //console.log(primeiraCartaVirada, segundaCartaVirada)
-
-    // if (contador == 3 && segundaCartaVirada != null && primeiraCartaVirada.querySelector(".back-face").innerHTML == segundaCartaVirada.querySelector(".back-face").innerHTML) {
-    //     elementoClicado.querySelector(".front-face").classList.add("rotacionar_frente");
-    //     elementoClicado.querySelector(".back-face").classList.add("rotacionar_verso");
-
-    //     primeiraCartaVirada = elementoClicado;
-    //     contador = 1;
-    // }
-    // else if (contador == 3 && segundaCartaVirada != null && primeiraCartaVirada.querySelector(".back-face").innerHTML != segundaCartaVirada.querySelector(".back-face").innerHTML) {
-    //     primeiraCartaVirada.querySelector(".front-face").classList.remove("rotacionar_frente");
-    //     primeiraCartaVirada.querySelector(".back-face").classList.remove("rotacionar_verso");
-
-    //     segundaCartaVirada.querySelector(".front-face").classList.remove("rotacionar_frente");
-    //     segundaCartaVirada.querySelector(".back-face").classList.remove("rotacionar_verso");
-
-    //     elementoClicado.querySelector(".front-face").classList.add("rotacionar_frente");
-    //     elementoClicado.querySelector(".back-face").classList.add("rotacionar_verso");
-
-    //     contador = 1;
-
-    //     primeiraCartaVirada = elementoClicado;
-    //     segundaCartaVirada = null;
-
-
-    // }
-
-    // else if (contador == 3 || contador == 2 && segundaCartaVirada == null) {
-    //     contador = 1;
-    // }
 }
 
 let segundos = parseInt(document.querySelector("article p").innerHTML);
@@ -186,4 +141,22 @@ function desvirarCartas() {
     segundaCartaVirada.querySelector(".back-face").classList.remove("rotacionar_verso");
     podeclicar = true;
 
+}
+
+function terminouOJogo() {
+    alert("Você ganhou em " + quantidadeDeCartasViradas + " jogadas!")
+    let reiniciar = prompt("Deseja reiniciar o jogo? \"sim\" ou \"não\"");
+    if (reiniciar = "sim") {
+        quantidadeDeCartas = 0;
+        contador = 0;
+        primeiraCartaVirada = null;
+        segundaCartaVirada = null;
+        quantidadeDeCartasViradas = 0;
+        quantidadeDeParesAcertados = 0;
+
+        clearInterval(intervalo);
+        segundos = 0;
+        comecarOJogo();
+        cronometrar();
+    }
 }
