@@ -8,7 +8,7 @@ function comecarOJogo() {
 
 
     quantidadeDeCartas = parseInt(prompt("Digite quantas cartas você quer no jogo (entre 4 e 14 cartas, número par)"))
-    
+
     while (quantidadeDeCartas % 2 != 0 || quantidadeDeCartas < 4 || quantidadeDeCartas > 14) {
         quantidadeDeCartas = prompt("Digite quantas cartas válido (entre 4 e 14 cartas, número par)")
     }
@@ -60,92 +60,103 @@ let primeiraCartaVirada = null;
 let segundaCartaVirada = null;
 let quantidadeDeCartasViradas = 0;
 let quantidadeDeParesAcertados = 0;
+let podeclicar = true
+
 function clicarNaCarta(elementoClicado, clique) {
-    quantidadeDeCartasViradas += 1;
-    contador = contador + clique;
+    if (podeclicar == true) {
 
-    if (contador == 1) {
-        if (elementoClicado.querySelector(".front-face").classList.contains("rotacionar_frente") &&
-            elementoClicado.querySelector(".back-face").classList.contains("rotacionar_verso")) {
+        quantidadeDeCartasViradas += 1;
+        contador = contador + clique;
 
+        if (contador == 1) {
+            if (elementoClicado.querySelector(".front-face").classList.contains("rotacionar_frente") &&
+                elementoClicado.querySelector(".back-face").classList.contains("rotacionar_verso")) {
 
-
-        } else {
-            elementoClicado.querySelector(".front-face").classList.add("rotacionar_frente");
-            elementoClicado.querySelector(".back-face").classList.add("rotacionar_verso");
-            primeiraCartaVirada = elementoClicado;
-        }
-        //
-        //console.log(elementoClicado.querySelector(".front-face").classList.contains("rotacionar_frente"), elementoClicado.querySelector(".back-face").classList.contains("rotacionar_verso"))
-    }
-
-    if (contador == 2) {
-        if (elementoClicado == primeiraCartaVirada) {
-            contador = 1;
-            //alert("Voce clicou na mesma carta");
-        } else {
-            elementoClicado.querySelector(".front-face").classList.add("rotacionar_frente");
-            elementoClicado.querySelector(".back-face").classList.add("rotacionar_verso");
-            segundaCartaVirada = elementoClicado;
-            if (primeiraCartaVirada.querySelector(".back-face").innerHTML == segundaCartaVirada.querySelector(".back-face").innerHTML) {
-                primeiraCartaVirada.removeAttribute("onclick")
-                segundaCartaVirada.removeAttribute("onclick")
-                quantidadeDeParesAcertados += 1;
-
-                if (quantidadeDeParesAcertados == quantidadeDeCartas / 2) {
-                    alert("Você ganhou em " + quantidadeDeCartasViradas + " jogadas!")
-                    let reiniciar = prompt("Deseja reiniciar o jogo? \"sim\" ou \"não\"");
-                    if (reiniciar = "sim") {
-                        quantidadeDeCartas = 0;
-                        contador = 0;
-                        primeiraCartaVirada = null;
-                        segundaCartaVirada = null;
-                        quantidadeDeCartasViradas = 0;
-                        quantidadeDeParesAcertados = 0;
-
-                        clearInterval(intervalo);
-                        segundos = 0;
-                        comecarOJogo();
-                        cronometrar();
-                    }
-                }
+            } else {
+                elementoClicado.querySelector(".front-face").classList.add("rotacionar_frente");
+                elementoClicado.querySelector(".back-face").classList.add("rotacionar_verso");
+                primeiraCartaVirada = elementoClicado;
+                primeiraCartaVirada.removeAttribute("onclick");
             }
+            //
+            //console.log(elementoClicado.querySelector(".front-face").classList.contains("rotacionar_frente"), elementoClicado.querySelector(".back-face").classList.contains("rotacionar_verso"))
+        }
 
+        if (contador == 2) {
+            podeclicar = false;
+            if (elementoClicado == primeiraCartaVirada) {
+                contador = 1;
+                podeclicar = true;
+                //alert("Voce clicou na mesma carta");
+            } else {
+                elementoClicado.querySelector(".front-face").classList.add("rotacionar_frente");
+                elementoClicado.querySelector(".back-face").classList.add("rotacionar_verso");
+                segundaCartaVirada = elementoClicado;
+                segundaCartaVirada.removeAttribute("onclick");
+
+                if (primeiraCartaVirada.querySelector(".back-face").innerHTML == segundaCartaVirada.querySelector(".back-face").innerHTML) {
+                    quantidadeDeParesAcertados += 1;
+                    contador = 0;
+                    podeclicar = true;
+
+                    if (quantidadeDeParesAcertados == quantidadeDeCartas / 2) {
+                        alert("Você ganhou em " + quantidadeDeCartasViradas + " jogadas!")
+                        let reiniciar = prompt("Deseja reiniciar o jogo? \"sim\" ou \"não\"");
+                        if (reiniciar = "sim") {
+                            quantidadeDeCartas = 0;
+                            contador = 0;
+                            primeiraCartaVirada = null;
+                            segundaCartaVirada = null;
+                            quantidadeDeCartasViradas = 0;
+                            quantidadeDeParesAcertados = 0;
+
+                            clearInterval(intervalo);
+                            segundos = 0;
+                            comecarOJogo();
+                            cronometrar();
+                        }
+                    }
+                } else {
+                    setTimeout(desvirarCartas, 2500);
+                    primeiraCartaVirada.setAttribute("onclick", "clicarNaCarta(this, 1)");
+                    segundaCartaVirada.setAttribute("onclick", "clicarNaCarta(this, 1)");
+                    contador = 0;
+                }
+
+            }
         }
     }
-
     //console.log(contador);
     //console.log(primeiraCartaVirada, segundaCartaVirada)
 
-    if (contador == 3 && segundaCartaVirada != null && primeiraCartaVirada.querySelector(".back-face").innerHTML == segundaCartaVirada.querySelector(".back-face").innerHTML) {
-        elementoClicado.querySelector(".front-face").classList.add("rotacionar_frente");
-        elementoClicado.querySelector(".back-face").classList.add("rotacionar_verso");
+    // if (contador == 3 && segundaCartaVirada != null && primeiraCartaVirada.querySelector(".back-face").innerHTML == segundaCartaVirada.querySelector(".back-face").innerHTML) {
+    //     elementoClicado.querySelector(".front-face").classList.add("rotacionar_frente");
+    //     elementoClicado.querySelector(".back-face").classList.add("rotacionar_verso");
 
-        primeiraCartaVirada = elementoClicado;
-        contador = 1;
-    }
-    else if (contador == 3 && segundaCartaVirada != null && primeiraCartaVirada.querySelector(".back-face").innerHTML != segundaCartaVirada.querySelector(".back-face").innerHTML) {
-        primeiraCartaVirada.querySelector(".front-face").classList.remove("rotacionar_frente");
-        primeiraCartaVirada.querySelector(".back-face").classList.remove("rotacionar_verso");
+    //     primeiraCartaVirada = elementoClicado;
+    //     contador = 1;
+    // }
+    // else if (contador == 3 && segundaCartaVirada != null && primeiraCartaVirada.querySelector(".back-face").innerHTML != segundaCartaVirada.querySelector(".back-face").innerHTML) {
+    //     primeiraCartaVirada.querySelector(".front-face").classList.remove("rotacionar_frente");
+    //     primeiraCartaVirada.querySelector(".back-face").classList.remove("rotacionar_verso");
 
-        segundaCartaVirada.querySelector(".front-face").classList.remove("rotacionar_frente");
-        segundaCartaVirada.querySelector(".back-face").classList.remove("rotacionar_verso");
+    //     segundaCartaVirada.querySelector(".front-face").classList.remove("rotacionar_frente");
+    //     segundaCartaVirada.querySelector(".back-face").classList.remove("rotacionar_verso");
 
-        elementoClicado.querySelector(".front-face").classList.add("rotacionar_frente");
-        elementoClicado.querySelector(".back-face").classList.add("rotacionar_verso");
+    //     elementoClicado.querySelector(".front-face").classList.add("rotacionar_frente");
+    //     elementoClicado.querySelector(".back-face").classList.add("rotacionar_verso");
 
-        contador = 1;
+    //     contador = 1;
 
-        primeiraCartaVirada = elementoClicado;
-        segundaCartaVirada = null;
+    //     primeiraCartaVirada = elementoClicado;
+    //     segundaCartaVirada = null;
 
 
-    }
+    // }
 
-    else if (contador == 3 || contador == 2 && segundaCartaVirada == null) {
-        contador = 1;
-    }
-
+    // else if (contador == 3 || contador == 2 && segundaCartaVirada == null) {
+    //     contador = 1;
+    // }
 }
 
 let segundos = parseInt(document.querySelector("article p").innerHTML);
@@ -165,4 +176,14 @@ function iniciarOCronometro() {
         segundos += 1;
         document.querySelector("article p").innerHTML = segundos;
     }
+}
+
+function desvirarCartas() {
+    primeiraCartaVirada.querySelector(".front-face").classList.remove("rotacionar_frente");
+    primeiraCartaVirada.querySelector(".back-face").classList.remove("rotacionar_verso");
+
+    segundaCartaVirada.querySelector(".front-face").classList.remove("rotacionar_frente");
+    segundaCartaVirada.querySelector(".back-face").classList.remove("rotacionar_verso");
+    podeclicar = true;
+
 }
