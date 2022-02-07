@@ -51,7 +51,7 @@ section {
     display: none;
 }
 
-article {
+time {
     width: 100px;
     height: 100px;
     border-radius: 50%;
@@ -81,7 +81,7 @@ p {
         font-size: 36px;
     }
 
-    article {
+    time {
         position: fixed;
         right: 50px;
         top: calc(50vh - 50px);

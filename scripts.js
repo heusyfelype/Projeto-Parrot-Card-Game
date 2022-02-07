@@ -29,6 +29,7 @@ function comecarOJogo() {
     cartasParaOJogo.sort(comparador)
 
     for (let i = 0; i < quantidadeDeCartas; i++) {
+        //Aqui houve uma pequena confusão sobre o que era "front-face" e o que era "back-face" em relação ao código passado para rotacionar cartas e em relação ao data-identifier
         document.querySelector("section").innerHTML = document.querySelector("section").innerHTML +
             ` 
         <div class="card" onclick="clicarNaCarta(this, 1)" data-identifier="card">
@@ -63,15 +64,8 @@ function clicarNaCarta(elementoClicado, clique) {
         contador += clique;
 
         if (contador == 1) {
-            if (elementoClicado.querySelector(".front-face").classList.contains("rotacionar_frente") &&
-                elementoClicado.querySelector(".back-face").classList.contains("rotacionar_verso")) {
-
-            } else {
-                elementoClicado.querySelector(".front-face").classList.add("rotacionar_frente");
-                elementoClicado.querySelector(".back-face").classList.add("rotacionar_verso");
-                primeiraCartaVirada = elementoClicado;
-                primeiraCartaVirada.removeAttribute("onclick");
-            }
+            primeiraCartaVirada = elementoClicado;
+            virarCarta(primeiraCartaVirada)
         }
 
         if (contador == 2) {
@@ -79,11 +73,10 @@ function clicarNaCarta(elementoClicado, clique) {
             if (elementoClicado == primeiraCartaVirada) {
                 contador = 1;
                 podeclicar = true;
+
             } else {
-                elementoClicado.querySelector(".front-face").classList.add("rotacionar_frente");
-                elementoClicado.querySelector(".back-face").classList.add("rotacionar_verso");
                 segundaCartaVirada = elementoClicado;
-                segundaCartaVirada.removeAttribute("onclick");
+                virarCarta(segundaCartaVirada)
 
                 if (primeiraCartaVirada.querySelector(".back-face").innerHTML == segundaCartaVirada.querySelector(".back-face").innerHTML) {
                     quantidadeDeParesAcertados += 1;
@@ -93,8 +86,10 @@ function clicarNaCarta(elementoClicado, clique) {
                     if (quantidadeDeParesAcertados == quantidadeDeCartas / 2) {
                         setTimeout(terminouOJogo, 1000);
                     }
+
                 } else {
-                    setTimeout(desvirarCartas, 2500);
+                    setTimeout(desvirarCartas, 2250, primeiraCartaVirada);
+                    setTimeout(desvirarCartas, 2250, segundaCartaVirada);
                     primeiraCartaVirada.setAttribute("onclick", "clicarNaCarta(this, 1)");
                     segundaCartaVirada.setAttribute("onclick", "clicarNaCarta(this, 1)");
                     contador = 0;
@@ -105,13 +100,12 @@ function clicarNaCarta(elementoClicado, clique) {
     }
 }
 
-let segundos = parseInt(document.querySelector("article p").innerHTML);
+let segundos = parseInt(document.querySelector("time p").innerHTML);
 let intervalo = null
 
 //Para cronometrar
 function cronometrar() {
-    document.querySelector("article").classList.remove("escondido")
-
+    document.querySelector("time").classList.remove("escondido")
     intervalo = setInterval(iniciarOCronometro, 1000)
 }
 
@@ -120,18 +114,21 @@ function iniciarOCronometro() {
         clearInterval(intervalo);
     } else {
         segundos += 1;
-        document.querySelector("article p").innerHTML = segundos;
+        document.querySelector("time p").innerHTML = segundos;
     }
 }
 
-//para desvirar a carta
-function desvirarCartas() {
-    primeiraCartaVirada.querySelector(".front-face").classList.remove("rotacionar_frente");
-    primeiraCartaVirada.querySelector(".back-face").classList.remove("rotacionar_verso");
+//Para virar a carta
+function virarCarta(cartaAVirar){
+    cartaAVirar.querySelector(".front-face").classList.add("rotacionar_frente");
+    cartaAVirar.querySelector(".back-face").classList.add("rotacionar_verso");
+    cartaAVirar.removeAttribute("onclick");
+}
 
-    segundaCartaVirada.querySelector(".front-face").classList.remove("rotacionar_frente");
-    segundaCartaVirada.querySelector(".back-face").classList.remove("rotacionar_verso");
-    
+//para desvirar ambas as cartas
+function desvirarCartas(cartaAdesvirar) {
+    cartaAdesvirar.querySelector(".front-face").classList.remove("rotacionar_frente");
+    cartaAdesvirar.querySelector(".back-face").classList.remove("rotacionar_verso");
     podeclicar = true;
 }
 
@@ -150,7 +147,6 @@ function terminouOJogo() {
         clearInterval(intervalo);
         segundos = -1;
         //Se o jogador quiser recomeçar, chama de novo as funções cronometrar e iniciar jogo
-        
         setTimeout(comecarOJogo, 100)
         setTimeout(cronometrar, 100)
     }
