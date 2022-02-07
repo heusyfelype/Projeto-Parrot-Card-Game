@@ -1,29 +1,26 @@
 let quantidadeDeCartas = 0;
 
+//Função principal do jogo
 function comecarOJogo() {
     document.querySelector("section").classList.remove("escondido")
     document.querySelector("section").innerHTML = "";
+
     if (!document.querySelector("button").classList.contains("escondido")) {
         document.querySelector("button").classList.add("escondido")
     }
 
-
     quantidadeDeCartas = parseInt(prompt("Digite quantas cartas você quer no jogo (entre 4 e 14 cartas, número par)"))
 
     while (quantidadeDeCartas % 2 != 0 || quantidadeDeCartas < 4 || quantidadeDeCartas > 14) {
-        quantidadeDeCartas = prompt("Digite quantas cartas válido (entre 4 e 14 cartas, número par)")
+        quantidadeDeCartas = prompt("Você digitou uma quantidade inválida! \nDigite uma quantidade de cartas válida (entre 4 e 14 cartas, número par) \n")
     }
 
-    // o maximo de cartas diferente que eu posso ter 
     let bancoDeImagensDiferentes = ["<img src='imagens-e-gifs/bobrossparrot.gif'>", "<img src='imagens-e-gifs/explodyparrot.gif'>", "<img src='imagens-e-gifs/fiestaparrot.gif'", "<img src='imagens-e-gifs/metalparrot.gif'", "<img src='imagens-e-gifs/revertitparrot.gif'", "<img src='imagens-e-gifs/tripletsparrot.gif'", "<img src='imagens-e-gifs/unicornparrot.gif'"]
-    //Vamos embaralhar essas cartas
-    let bancoDeImagensDiferentesEmbaralhado = bancoDeImagensDiferentes.sort(comparador); // Após esta linha, a minhaArray estará embaralhada
-    // preciso pegar apenas a quantidade de cartas DIFERENTES necessárias para o jogo i.e. quantidadeDeCartas/2
-    let quantidadeDeCartasDiferentesEmbaralhadas = []
+    bancoDeImagensDiferentes.sort(comparador);
+    let quantidadeDeCartasDiferentesEmbaralhadas = [];
     for (let i = 0; i < (quantidadeDeCartas / 2); i++) {
-        quantidadeDeCartasDiferentesEmbaralhadas[i] = bancoDeImagensDiferentesEmbaralhado[i];
+        quantidadeDeCartasDiferentesEmbaralhadas[i] = bancoDeImagensDiferentes[i];
     }
-    // console.log(quantidadeDeCartasDiferentesEmbaralhadas)
     let cartasParaOJogo = []
     for (let i = 0; i < (quantidadeDeCartas / 2); i++) {
         cartasParaOJogo.push(quantidadeDeCartasDiferentesEmbaralhadas[i]);
@@ -32,28 +29,23 @@ function comecarOJogo() {
     cartasParaOJogo.sort(comparador)
 
     for (let i = 0; i < quantidadeDeCartas; i++) {
-        document.querySelector("section").innerHTML = document.querySelector("section").innerHTML + ` 
-        <div class="card" onclick="clicarNaCarta(this, 1)">
-            <div class="front-face face">
+        document.querySelector("section").innerHTML = document.querySelector("section").innerHTML +
+            ` 
+        <div class="card" onclick="clicarNaCarta(this, 1)" data-identifier="card">
+            <div class="front-face face" data-identifier="back-face">
             <img src="imagens-e-gifs/papagaio-frente.png" alt="imagem de papagaio">
             </div>
-            <div class="back-face face">
+            <div class="back-face face" data-identifier="front-face">
             ${cartasParaOJogo[i]}
             </div>
         </div>
-    
-    `
+        `
     }
+}
 
-
-
-
-
-    // Esta função pode ficar separada do código acima, onde você preferir
-    function comparador() {
-        return Math.random() - 0.5;
-    }
-
+//função embaralhar
+function comparador() {
+    return Math.random() - 0.5;
 }
 
 let contador = 0;
@@ -63,11 +55,12 @@ let quantidadeDeCartasViradas = 0;
 let quantidadeDeParesAcertados = 0;
 let podeclicar = true
 
+//Função que verifica a quantidade de cartas viradas e as compara
 function clicarNaCarta(elementoClicado, clique) {
     if (podeclicar == true) {
 
         quantidadeDeCartasViradas += 1;
-        contador = contador + clique;
+        contador += clique;
 
         if (contador == 1) {
             if (elementoClicado.querySelector(".front-face").classList.contains("rotacionar_frente") &&
@@ -79,8 +72,6 @@ function clicarNaCarta(elementoClicado, clique) {
                 primeiraCartaVirada = elementoClicado;
                 primeiraCartaVirada.removeAttribute("onclick");
             }
-            //
-            //console.log(elementoClicado.querySelector(".front-face").classList.contains("rotacionar_frente"), elementoClicado.querySelector(".back-face").classList.contains("rotacionar_verso"))
         }
 
         if (contador == 2) {
@@ -88,7 +79,6 @@ function clicarNaCarta(elementoClicado, clique) {
             if (elementoClicado == primeiraCartaVirada) {
                 contador = 1;
                 podeclicar = true;
-                //alert("Voce clicou na mesma carta");
             } else {
                 elementoClicado.querySelector(".front-face").classList.add("rotacionar_frente");
                 elementoClicado.querySelector(".back-face").classList.add("rotacionar_verso");
@@ -118,6 +108,7 @@ function clicarNaCarta(elementoClicado, clique) {
 let segundos = parseInt(document.querySelector("article p").innerHTML);
 let intervalo = null
 
+//Para cronometrar
 function cronometrar() {
     document.querySelector("article").classList.remove("escondido")
 
@@ -127,25 +118,26 @@ function cronometrar() {
 function iniciarOCronometro() {
     if (quantidadeDeParesAcertados == quantidadeDeCartas / 2) {
         clearInterval(intervalo);
-        //     //alert("Hora da janta!");
     } else {
         segundos += 1;
         document.querySelector("article p").innerHTML = segundos;
     }
 }
 
+//para desvirar a carta
 function desvirarCartas() {
     primeiraCartaVirada.querySelector(".front-face").classList.remove("rotacionar_frente");
     primeiraCartaVirada.querySelector(".back-face").classList.remove("rotacionar_verso");
 
     segundaCartaVirada.querySelector(".front-face").classList.remove("rotacionar_frente");
     segundaCartaVirada.querySelector(".back-face").classList.remove("rotacionar_verso");
+    
     podeclicar = true;
-
 }
 
+//Quando virar todas as cartas
 function terminouOJogo() {
-    alert("Você ganhou em " + quantidadeDeCartasViradas + " jogadas!")
+    alert("Você ganhou em " + quantidadeDeCartasViradas + " jogadas e em " + segundos + " segundos!")
     let reiniciar = prompt("Deseja reiniciar o jogo? \"sim\" ou \"não\"");
     if (reiniciar == "sim" || reiniciar == "Sim" || reiniciar == "SIM") {
         quantidadeDeCartas = 0;
@@ -156,11 +148,13 @@ function terminouOJogo() {
         quantidadeDeParesAcertados = 0;
 
         clearInterval(intervalo);
-        segundos = 0;
+        segundos = -1;
+        //Se o jogador quiser recomeçar, chama de novo as funções cronometrar e iniciar jogo
+        
         setTimeout(comecarOJogo, 100)
         setTimeout(cronometrar, 100)
     }
-    else if (reiniciar =='não' || reiniciar == 'nao' || reiniciar == 'Nao' || reiniciar == 'Não' || reiniciar == 'NAO' || reiniciar == 'NÃO'){
+    else if (reiniciar == 'não' || reiniciar == 'nao' || reiniciar == 'Nao' || reiniciar == 'Não' || reiniciar == 'NAO' || reiniciar == 'NÃO') {
         alert('Obrigado por jogar, até uma próxima (caso queira reiniciar o jogo, atualize a página)')
     }
 
