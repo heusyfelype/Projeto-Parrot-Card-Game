@@ -1,6 +1,7 @@
 let quantidadeDeCartas = 0;
 
 function comecarOJogo() {
+    document.querySelector("section").classList.remove("escondido")
     document.querySelector("section").innerHTML = "";
     if (!document.querySelector("button").classList.contains("escondido")) {
         document.querySelector("button").classList.add("escondido")
@@ -146,7 +147,7 @@ function desvirarCartas() {
 function terminouOJogo() {
     alert("Você ganhou em " + quantidadeDeCartasViradas + " jogadas!")
     let reiniciar = prompt("Deseja reiniciar o jogo? \"sim\" ou \"não\"");
-    if (reiniciar = "sim") {
+    if (reiniciar == "sim" || reiniciar == "Sim" || reiniciar == "SIM") {
         quantidadeDeCartas = 0;
         contador = 0;
         primeiraCartaVirada = null;
@@ -156,7 +157,14 @@ function terminouOJogo() {
 
         clearInterval(intervalo);
         segundos = 0;
-        comecarOJogo();
-        cronometrar();
+        setTimeout(comecarOJogo, 100)
+        setTimeout(cronometrar, 100)
+    }
+    else if (reiniciar =='não' || reiniciar == 'nao' || reiniciar == 'Nao' || reiniciar == 'Não' || reiniciar == 'NAO' || reiniciar == 'NÃO'){
+        alert('Obrigado por jogar, até uma próxima (caso queira reiniciar o jogo, atualize a página)')
+    }
+
+    else {
+        alert('Desculpe, não entendi. Caso queira reiniciar o jogo, atualize a página!')
     }
 }
